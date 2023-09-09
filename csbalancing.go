@@ -16,15 +16,15 @@ func CustomerSuccessBalancing(customerSuccess []Entity, customers []Entity, cust
 	sortEntitiesByScore(customerSuccess)
 	sortEntitiesByScore(customers)
 
-	availableCS := customerSuccess
+	availableCustomerSuccess := customerSuccess
 	if customerSuccessAway != nil {
-		availableCS = getAvailableCustomerSuccess(customerSuccess, customerSuccessAway)
+		availableCustomerSuccess = getAvailableCustomerSuccess(customerSuccess, customerSuccessAway)
 	}
 
-	countCustomer := countCustomer(customers, availableCS)
+	countPerCustomerSuccess := countAssignedCustomers(customers, availableCustomerSuccess)
 
-	busiestCSID := getBusiestCustomerSuccess(countCustomer)
-	return busiestCSID
+	busiestCustomerSuccessID := getBusiestCustomerSuccess(countPerCustomerSuccess)
+	return busiestCustomerSuccessID
 }
 
 // sortEntitiesByScore sorts a slice of entities by their scores in ascending order.
@@ -36,7 +36,7 @@ func sortEntitiesByScore(entities []Entity) {
 
 // getAvailableCustomerSuccess filters out customer success who are away.
 func getAvailableCustomerSuccess(customerSuccess []Entity, customerSuccessAway []int) []Entity {
-	var availableCS []Entity
+	var availableCustomerSuccess []Entity
 
 	for _, cs := range customerSuccess {
 		isAway := false
@@ -47,41 +47,41 @@ func getAvailableCustomerSuccess(customerSuccess []Entity, customerSuccessAway [
 			}
 		}
 		if !isAway {
-			availableCS = append(availableCS, cs)
+			availableCustomerSuccess = append(availableCustomerSuccess, cs)
 		}
 	}
 
-	return availableCS
+	return availableCustomerSuccess
 }
 
-// countCustomer counts the number of customers assigned to each available customer success.
-func countCustomer(customers []Entity, availableCS []Entity) map[int]int {
-	countCustomer := make(map[int]int)
+// countAssignedCustomers counts the number of customers assigned to each available customer success.
+func countAssignedCustomers(customers []Entity, availableCustomerSuccess []Entity) map[int]int {
+	countPerCustomerSuccess := make(map[int]int)
 
 	for _, c := range customers {
-		for _, cs := range availableCS {
+		for _, cs := range availableCustomerSuccess {
 			if c.Score <= cs.Score {
-				countCustomer[cs.ID]++
+				countPerCustomerSuccess[cs.ID]++
 				break
 			}
 		}
 	}
 
-	return countCustomer
+	return countPerCustomerSuccess
 }
 
 // getBusiestCustomerSuccess gets the busiest customer success.
 // If there is a tie for the busiest representative, it will return 0.
-func getBusiestCustomerSuccess(countCustomer map[int]int) int {
-	var busiestCS, busiestCSID int
+func getBusiestCustomerSuccess(countPerCustomerSuccess map[int]int) int {
+	var busiestCustomerSuccessScore, busiestCustomerSuccessID int
 	var isTie bool
 
-	for k, v := range countCustomer {
-		if v > busiestCS {
-			busiestCS = v
-			busiestCSID = k
+	for id, score := range countPerCustomerSuccess {
+		if score > busiestCustomerSuccessScore {
+			busiestCustomerSuccessScore = score
+			busiestCustomerSuccessID = id
 			isTie = false
-		} else if v == busiestCS {
+		} else if score == busiestCustomerSuccessScore {
 			isTie = true
 		}
 	}
@@ -90,5 +90,5 @@ func getBusiestCustomerSuccess(countCustomer map[int]int) int {
 		return 0
 	}
 
-	return busiestCSID
+	return busiestCustomerSuccessID
 }
