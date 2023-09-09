@@ -1,5 +1,7 @@
 # Customer Success Balancing
 
+Customer Success Balancing é um tech challenge proposto pela empresa RDStation, onde oferece uma solução para distribuir clientes entre Customer Success, garantindo que o mais ocupado seja identificado para fazer um plano de ação para contratação.
+
 ## Como rodar os testes
 
 ### Opção 1: Rodar localmente
