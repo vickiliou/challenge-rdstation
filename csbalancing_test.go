@@ -38,7 +38,7 @@ var testScenarios = []struct {
 	expected        int
 }{
 	{
-		name:            "Scenario 1: customer success served customers in a simple case",
+		name:            "Scenario 1: customer success serves customers in a simple case",
 		timeoutScenario: false,
 		css: []csbalancing.Entity{
 			{ID: 1, Score: 60},
@@ -66,7 +66,7 @@ var testScenarios = []struct {
 		expected:        0,
 	},
 	{
-		name:            "Scenario 4: customer success may not served any customer",
+		name:            "Scenario 4: customer success may not serve any customer",
 		timeoutScenario: false,
 		css:             buildEntities([]int{1, 2, 3, 4, 5, 6}),
 		customers:       buildEntities([]int{10, 10, 10, 20, 20, 30, 30, 30, 20, 60}),
@@ -74,7 +74,7 @@ var testScenarios = []struct {
 		expected:        0,
 	},
 	{
-		name:            "Scenario 5: one customer success served all of customers",
+		name:            "Scenario 5: one customer success serves all customers",
 		timeoutScenario: false,
 		css:             buildEntities([]int{100, 2, 3, 6, 4, 5}),
 		customers:       buildEntities([]int{10, 10, 10, 20, 20, 30, 30, 30, 20, 60}),
@@ -82,7 +82,7 @@ var testScenarios = []struct {
 		expected:        1,
 	},
 	{
-		name:            "Scenario 6: customer success with lower scores than customers then customers not being served",
+		name:            "Scenario 6: customer success with lower scores than customers, then customers are not being served",
 		timeoutScenario: false,
 		css:             buildEntities([]int{100, 99, 88, 3, 4, 5}),
 		customers:       buildEntities([]int{10, 10, 10, 20, 20, 30, 30, 30, 20, 60}),
@@ -98,7 +98,7 @@ var testScenarios = []struct {
 		expected:        3,
 	},
 	{
-		name:            "Scenario 8: customer success served customers",
+		name:            "Scenario 8: customer success serves customers",
 		timeoutScenario: false,
 		css:             buildEntities([]int{60, 40, 95, 75}),
 		customers:       buildEntities([]int{90, 70, 20, 40, 60, 10}),
